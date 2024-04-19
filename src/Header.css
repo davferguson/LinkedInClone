@@ -1,0 +1,45 @@
+.header {
+    position: sticky; /* keep header stuck to top when scrolling */
+    top: 0;
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 0.1px solid lightgrey;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    width: 100%;
+    z-index: 999;
+    background-color: white;
+}
+
+.header__left {
+    display: flex;
+    align-items: center;
+}
+
+.header__left > svg {
+    object-fit: contain; /* keep aspect ratio */
+    height: 42px;
+    width: auto;
+    color: rgb(10, 102, 194);
+    margin-right: 2px;
+}
+
+.header__search {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    height: 14px;
+    color: gray;
+    background-color: #eef3f8;
+}
+
+.header__search > input {
+    outline: none;
+    border: none;
+    background: none;
+}
+
+.header__right {
+    display: flex;
+}
