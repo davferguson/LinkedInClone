@@ -7,37 +7,39 @@ import ArticleIcon from '@mui/icons-material/Article';
 import InputOption from './InputOption';
 import Post from './Post';
 import { db } from './firebase';
-// import { doc, onSnapshot } from "firebase/firestore";
-import { collection, query, onSnapshot } from "firebase/firestore";
+import { collection, query, onSnapshot, addDoc, serverTimestamp, orderBy } from "firebase/firestore";
 
 function Feed() {
+  const [input, setInput] = useState('');
   const [posts, setPosts] = useState([]);
   
   useEffect(() => { //runs code when Feed component loads
-
-    const q = query(collection(db, "posts"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const posts = [];
-      querySnapshot.forEach((doc) => {
-          posts.push(doc.data());
-      });
-      // console.log("Data: ", posts.join(", "));
-      console.log("Data: ", posts[0].desc, posts[1].desc);
-    });
-
-    // db.collection("posts").onSnapshot((snapshot) => 
-    //   setPosts(
-    //     snapshot.docs.map((doc) => ({
-    //       id: doc.id,
-    //       data: doc.data(),
-    //     }))
-    //   )
-    // );
+    // connect to database in realtime
+    const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+    onSnapshot(q, (querySnapshot) => 
+      setPosts(
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      )
+    );
   }, []) //if we don't pass a second arg the code will re-run everytime component re-renders
   //since we passed a second arg it will only run when the compoenent initially loads and never again
 
-  const sendPost = (e) => {
+  const sendPost = async (e) => {
     e.preventDefault();
+
+    // Add a new document with a generated id.
+    await addDoc(collection(db, "posts"), {
+      name: "Davin Ferguson",
+      desc: "to database",
+      msg: input,
+      photoUrl: "",
+      timestamp: serverTimestamp()
+    });
+
+    setInput("");
   }
 
   return (
@@ -46,7 +48,7 @@ function Feed() {
         <div className="feed__input">
           <CreateIcon />
           <form>
-            <input type='text' />
+            <input value={input} onChange={e => setInput(e.target.value)} type='text' />
             <button onClick={sendPost} type='submit'>Send</button>
           </form>
         </div>
@@ -57,10 +59,9 @@ function Feed() {
         </div>
       </div>
 
-      {posts.map((post) => (
-        <Post />
+      {posts.map(({ id, data: { name, desc, msg, photoUrl}}) => (
+        <Post key={id} name={name} desc={desc} msg={msg} photoUrl={photoUrl} />
       ))}
-      <Post name="Davin Ferguson" desc="Test desc here" msg="Here is message. IT WORKED!" />
     </div>
   )
 }
