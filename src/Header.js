@@ -7,8 +7,24 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HeaderOption from './HeaderOption';
+import { useDispatch } from 'react-redux';
+import { logout } from './features/userSlice';
+import { getAuth, signOut } from "firebase/auth";
 
 function Header() {
+  const dispatch = useDispatch();
+
+  const logoutOfApp = () => {
+    dispatch(logout());
+
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      alert(error.message);
+    });
+  }
+
   return (
     <div className='header'>
         <div className="header__left">
@@ -30,6 +46,7 @@ function Header() {
           <HeaderOption Icon={NotificationsIcon} title="Notifications" />
           <HeaderOption avatar="https://media.licdn.com/dms/image/C5603AQGjDjLjMdazMg/profile-displayphoto-shrink_100_100/0/1654619846745?e=1718841600&v=beta&t=2gbJMbP3_fpYfk0ddXxVV021IPwVQyprGYTgGssK0nU"
           title="Me" />
+          <span onClick={logoutOfApp}>Logout</span>
         </div>
     </div>
   )

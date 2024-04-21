@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { auth } from './firebase';
-import {  createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {  createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import { login } from './features/userSlice';
 
 function Login() {
+    const auth = getAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
@@ -14,6 +14,21 @@ function Login() {
 
     const loginToApp = (e) => {
         e.preventDefault();
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                dispatch(
+                    login({
+                        email: userCredential.user.email,
+                        uid: userCredential.user.uid,
+                        displayName: userCredential.user.displayName,
+                        photoURL: userCredential.user.photoURL,
+                    })
+                );
+            })
+            .catch((error) => {
+                alert(error.message);
+            })
     };
     const register = () => {
         if(!name) {
