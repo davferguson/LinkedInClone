@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "",
+    apiKey: process.env.REACT_APP_API_KEY,
     authDomain: "linkedin-clone-50448.firebaseapp.com",
     projectId: "linkedin-clone-50448",
     storageBucket: "linkedin-clone-50448.appspot.com",
