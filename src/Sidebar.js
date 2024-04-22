@@ -13,12 +13,13 @@ function Sidebar() {
     );
 
     const user = useSelector(selectUser);
+    let curName = user.displayName || user.email;
 
   return (
     <div className="sidebar">
         <div className="sidebar__top">
             <img src='https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt='' />
-            <Avatar src={user.photoURL} className='sidebar__avatar'>{user.displayName[0].toUpperCase()}</Avatar>
+            <Avatar src={user.photoURL} className='sidebar__avatar'>{curName[0].toUpperCase()}</Avatar>
             <h2>{user.displayName}</h2>
             <h4>{user.email}</h4>
         </div>
