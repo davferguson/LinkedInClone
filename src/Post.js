@@ -7,11 +7,11 @@ import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import SendIcon from '@mui/icons-material/Send';
 
-function Post({ name, desc, msg, photoUrl }) {
+function Post({ name, desc, msg, photoURL }) {
   return (
     <div className='post'>
         <div className="post__header">
-            <Avatar />
+            <Avatar src={photoURL}>{name[0].toUpperCase()}</Avatar>
             <div className="post__info">
                 <h2>{name}</h2>
                 <p>{desc}</p>

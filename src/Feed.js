@@ -8,10 +8,13 @@ import InputOption from './InputOption';
 import Post from './Post';
 import { db } from './firebase';
 import { collection, query, onSnapshot, addDoc, serverTimestamp, orderBy } from "firebase/firestore";
+import { useSelector } from 'react-redux';
+import { selectUser } from './features/userSlice';
 
 function Feed() {
   const [input, setInput] = useState('');
   const [posts, setPosts] = useState([]);
+  const user = useSelector(selectUser);
   
   useEffect(() => { //runs code when Feed component loads
     // connect to database in realtime
@@ -32,10 +35,10 @@ function Feed() {
 
     // Add a new document with a generated id.
     await addDoc(collection(db, "posts"), {
-      name: "Davin Ferguson",
-      desc: "to database",
+      name: user.displayName,
+      desc: user.email,
       msg: input,
-      photoUrl: "",
+      photoURL: user.photoURL || "",
       timestamp: serverTimestamp()
     });
 
@@ -59,8 +62,8 @@ function Feed() {
         </div>
       </div>
 
-      {posts.map(({ id, data: { name, desc, msg, photoUrl}}) => (
-        <Post key={id} name={name} desc={desc} msg={msg} photoUrl={photoUrl} />
+      {posts.map(({ id, data: { name, desc, msg, photoURL}}) => (
+        <Post key={id} name={name} desc={desc} msg={msg} photoURL={photoURL} />
       ))}
     </div>
   )
