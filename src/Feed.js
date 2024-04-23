@@ -10,7 +10,6 @@ import { db } from './firebase';
 import { collection, query, onSnapshot, addDoc, serverTimestamp, orderBy } from "firebase/firestore";
 import { useSelector } from 'react-redux';
 import { selectUser } from './features/userSlice';
-import FlipMove from 'react-flip-move';
 
 function Feed() {
   const [input, setInput] = useState('');
@@ -51,8 +50,8 @@ function Feed() {
       <div className="feed__inputContainer">
         <div className="feed__input">
           <CreateIcon />
-          <form>
-            <input value={input} onChange={e => setInput(e.target.value)} type='text' />
+          <form name='create-post-form'>
+            <input name='post-text' value={input} onChange={e => setInput(e.target.value)} type='text' />
             <button onClick={sendPost} type='submit'>Send</button>
           </form>
         </div>
@@ -63,11 +62,10 @@ function Feed() {
         </div>
       </div>
 
-      <FlipMove>
       {posts.map(({ id, data: { name, desc, msg, photoURL}}) => (
         <Post key={id} name={name} desc={desc} msg={msg} photoURL={photoURL} />
       ))}
-      </FlipMove>
+
     </div>
   )
 }

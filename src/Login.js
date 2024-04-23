@@ -60,14 +60,14 @@ function Login() {
   return (
     <div className='login'>
         <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/LinkedIn_Logo.svg/1280px-LinkedIn_Logo.svg.png' alt='' />
-        <form>
-            <input value={name} onChange={e => setName(e.target.value)} placeholder='Full name (required if registering)' type='text' />
+        <form name='login-form'>
+            <input name='login-name' value={name} onChange={e => setName(e.target.value)} placeholder='Full name (required if registering)' type='text' />
 
-            <input value={profilePic} onChange={e => setProfilePic(e.target.value)} placeholder='Profile pic URL (optional)' type="text" />
+            <input name='login-profile-pic' value={profilePic} onChange={e => setProfilePic(e.target.value)} placeholder='Profile pic URL (optional)' type="text" />
 
-            <input value={email} onChange={e => setEmail(e.target.value)} placeholder='Email' type="email" />
+            <input name='login-email' value={email} onChange={e => setEmail(e.target.value)} placeholder='Email' type="email" />
 
-            <input value={password} onChange={e => setPassword(e.target.value)} placeholder='Password' type="password" />
+            <input name='login-password' value={password} onChange={e => setPassword(e.target.value)} placeholder='Password' type="password" />
 
             <button type='submit' onClick={loginToApp}>Sign In</button>
         </form>
